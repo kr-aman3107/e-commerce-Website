@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
+    <title>All Products</title>
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/product-styles.css">
+    <!-- Adjust path as necessary -->
 </head>
 <body>
     <header class="main-header">
@@ -22,27 +23,11 @@
             </ul>
         </nav>
     </header>
-
+    
     <main>
-        <form class="product-form" action="/add-product" method="post">
-            <label for="title">Title: </label>
-            <input type="text" name="title" id="title" required>
-
-            <label for="imageUrl">Image URL: </label>
-            <input type="text" name="imageUrl" id="imageUrl" required>
-            <div class="image-preview" id="imagePreview">
-                <img src="" alt="Image Preview" id="previewImage">
-            </div>
-            
-            <label for="description">Description: </label>
-            <textarea name="description" id="description"></textarea>
-
-            <label for="price">Price: </label>
-            <input type="number" name="price" id="price" required>
-
-            <button type="submit">Add Product</button>
-        </form>
+        <h1>All Products</h1>
+        <ul id="product-list"></ul>
+        <script src="/routes/shop.js"></script>
     </main>
-
 </body>
 </html>

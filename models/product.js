@@ -21,6 +21,7 @@ module.exports = class Product {
         this.title = t;
     }
     save() {
+        this.id=Math.random().toString();
         readFromFile(products => {
             products.push(this);
             fs.writeFile(p, JSON.stringify(products), (err) => {
@@ -33,18 +34,10 @@ module.exports = class Product {
     static fetchAll(cb) {
         readFromFile(cb);
     }
-    // static fetchAll(cb) {
-    //     const p = path.join(path.dirname(process.mainModule.filename),
-    //         'data',
-    //         'product.json'
-    //     );
-    //     fs.readFile(p, (err, fileContent) => {
-    //         if (err || fileContent.length === 0) {
-    //             cb([]); 
-    //         } else {
-    //             cb(JSON.parse(fileContent)); 
-    //         }
-    //     });
-    // }
-
+    static findById(id,cb){
+        readFromFile(products =>{
+            const product = products.find(p => p.id===id);
+            cb(product);
+        });
+    }
 }

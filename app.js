@@ -14,4 +14,4 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(adminRoutes);
 
-app.listen(3001);
+app.listen(3000);
