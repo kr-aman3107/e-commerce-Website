@@ -4,8 +4,8 @@ const path = require('path');
 const rootDir = require('../util/path');
 
 
-exports.getAllProducts = (req,res,next) =>{
-    Product.fetchAll(products =>{
+exports.getAllProducts = (req, res, next) => {
+    Product.fetchAll(products => {
         let html = `
          <!DOCTYPE html>
         <html lang="en">
@@ -13,17 +13,24 @@ exports.getAllProducts = (req,res,next) =>{
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>All Products</title>
-            <link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" href="/css/main.css">
         </head>
         <body>
             <h1>All Products</h1>
             <ul>
         `;
         products.forEach(product => {
-            html += `<li>${product.title}</li>`
+            html += `
+                <li>
+                    ${product.title}
+                    <form action="/add-to-cart" method="POST">
+                        <input type="hidden" name="productId" value="${product.id}">
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </li>`;
         });
 
-        html+= `
+        html += `
             </ul>
             </body>
             </html>
@@ -31,8 +38,8 @@ exports.getAllProducts = (req,res,next) =>{
 
         res.send(html);
     });
+};
 
-}
 exports.getAddProduct = (req,res,next) =>{
      res.sendFile(path.join(rootDir,'views','add-product.html'));
 
