@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
 // Route to get admin page with product list
-router.get('/', (req, res) => {
-    Product.fetchAll(products => {
+router.get('/', async (req, res) => {
+    try {
+        const products = await Product.findAll(); 
         let productListHtml = '<div class="product-list">';
         products.forEach(product => {
             productListHtml += `
@@ -13,14 +14,14 @@ router.get('/', (req, res) => {
                     <p class="product-description">Description of ${product.title}</p>
                     <div class="btn">
                         <a href="/products" class="btn">Details</a>
-                    <form action="/add-to-cart" method="POST">
-                      <button class="btn">Add to Cart</button>
-                    </form>
+                        <form action="/add-to-cart" method="POST">
+                          <button class="btn">Add to Cart</button>
+                        </form>
                     </div>
                 </div>`;
         });
         productListHtml += '</div>';
-        // Serve dynamic HTML
+
         res.send(`
             <!DOCTYPE html>
             <html lang="en">
@@ -49,6 +50,10 @@ router.get('/', (req, res) => {
             </body>
             </html>
         `);
-    });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
 });
+
 module.exports = router;

@@ -1,4 +1,4 @@
-const Cart = require('../models/cartModel');
+const Cart = require('../models/cart');
 const Product = require('../models/product');
 exports.postCart = (req, res) => {
     const productId = req.body.productId;

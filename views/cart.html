@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/product-styles.css">
+
+</head>
+<body>
+    <header class="main-header">
+        <div class="img-div">
+            <!-- <img src="../NSkEnhance.png" alt="logo" class="img"> -->
+        </div>
+        <nav class="main-header__nav">
+            <ul class="main-header__item_list">
+                <li class="main-header__items"><a href="/">Shop</a></li>
+                <li class="main-header__items"><a href="/add-product">Add Product</a></li>
+                <li class="main-header__items"><a href="/contactUs">Contact us</a></li>
+                <li class="main-header__items"><a href="/cart">Cart</a></li>
+                <li class="main-header__items"><a href="/admin-product">Admin Product</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Your Cart</h1>
+        <ul id="cart-items"></ul>
+        <script>
+            // Fetch the cart data from the server
+            fetch('/api/cart-data')
+                .then(response => response.json()) // Parse the JSON from the response
+                .then(cart => {
+                    const cartItems = document.getElementById('cart-items'); // Get the UL element to insert items
+                    cart.products.forEach(product => { // Loop through each product in the cart
+                        const li = document.createElement('li'); // Create a new list item
+                        li.innerHTML = `
+                            <h2>${product.title}</h2>
+                            <img src="${product.imageUrl}" alt="${product.title}" style="width: 150px;">
+                            <p>Price: $${product.price.toFixed(2)}</p>
+                            <p>Quantity: ${product.cartItem.quantity}</p>
+                            <form action="/cart-delete-item" method="POST">
+                                <input type="hidden" name="productId" value="${product.id}">
+                                <button type="submit">Remove from Cart</button>
+                            </form>
+                        `;
+                        cartItems.appendChild(li); // Append the list item to the UL
+                    });
+                })
+                .catch(error => console.error('Error fetching cart:', error)); // Handle any errors
+        </script>
+    </main>
+</body>
+</html>
